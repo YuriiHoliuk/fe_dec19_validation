@@ -6,14 +6,16 @@ export const TextField = (props) => {
   const {
     value,
     onChange,
+    onBlur,
     label,
     name,
     placeholder,
     error,
+    touched,
   } = props;
 
   const inputClass = cx('input', {
-    'is-danger': Boolean(error),
+    'is-danger': Boolean(error && touched),
   });
 
   return (
@@ -32,9 +34,10 @@ export const TextField = (props) => {
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
         />
       </div>
-      {error && (
+      {touched && error && (
         <p className="help is-danger">
           {error}
         </p>
@@ -50,9 +53,13 @@ TextField.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   error: PropTypes.string,
+  onBlur: PropTypes.func,
+  touched: PropTypes.bool,
 };
 
 TextField.defaultProps = {
   placeholder: 'Enter text here',
   error: '',
+  onBlur: () => {},
+  touched: false,
 };
